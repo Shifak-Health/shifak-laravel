@@ -33,8 +33,6 @@ class Customer extends User
         'email',
         'phone',
         'password',
-        'city_id',
-        'supervisor_id',
     ];
 
     /**
