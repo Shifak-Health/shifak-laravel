@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Models\User;
 use App\Models\Pharmacy;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
@@ -12,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\RegisterUserRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class RegisterUserController extends Controller
 {
@@ -51,7 +51,7 @@ class RegisterUserController extends Controller
         // Handle image upload
         if ($request->hasFile('pharmacy.logo')) {
             $pharmacy->addMediaFromRequest('pharmacy.logo')
-                ->usingFileName(md5(Arr::random(40)))
+                ->usingFileName(md5(Str::random(40)))
                 ->toMediaCollection('logo');
         }
     }
