@@ -47,6 +47,10 @@ class DatabaseSeeder extends Seeder
             DummyDataSeeder::class,
         ]);
 
+        $this->call([
+            DrugTypeSeeder::class,
+        ]);
+
         $this->command->table(['ID', 'Name', 'Email', 'Phone', 'Password', 'Type', 'Type Code'], [
             [$admin->id, $admin->name, $admin->email, $admin->phone, 'password', 'Admin', $admin->type],
             [

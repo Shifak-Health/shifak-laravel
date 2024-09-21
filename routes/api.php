@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\PharmacyController;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Api\Auth\RegisterUserController;
+use App\Http\Controllers\Api\User\DrugTypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +34,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('verification/verify', 'VerificationController@verify')->name('verification.verify');
     Route::get('profile', 'ProfileController@show')->name('profile.show');
     Route::match(['put', 'patch'], 'profile', 'ProfileController@update')->name('profile.update');
+});
+Route::as('user.')->prefix('user')->group(function () {
+    Route::get('drug-types', [DrugTypeController::class, 'index'])->name('drugs.types');
 });
 Route::post('/editor/upload', 'MediaController@editorUpload')->name('editor.upload');
 Route::get('/settings', 'SettingController@index')->name('settings.index');

@@ -26,6 +26,6 @@ Route::impersonate();
 Route::get('pages/{type}', 'PageController@show')->name('pages.show')->where('type', '(terms|privacy|about)');
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('users', 'UserController')->only('edit', 'update');
+//Route::resource('users', 'UserController')->only('edit', 'update');
 
 Route::get('/', 'HomeController@welcome')->middleware('guest');

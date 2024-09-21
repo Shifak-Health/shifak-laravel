@@ -11,20 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('drug_pharmacies', function (Blueprint $table) {
-            $table->id();
-            $table->double('price');
-            $table->integer('quantity');
-            $table->boolean('is_valid');
-            $table->boolean('is_donated');
-            $table->date('production_date');
-            $table->date('expiry_date');
-            $table->foreignId('drug_id')->references('id')->on('drugs')->cascadeOnDelete();
-            $table->foreignId('branch_id')->nullable();
-            $table->foreign('branch_id')->references('id')->on('branches')->onDelete('set null');
-            $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->timestamps();
-        });
+//        Schema::create('drug_pharmacies', function (Blueprint $table) {
+////            $table->id();
+////            $table->double('price');
+////            $table->integer('quantity');
+////            $table->boolean('is_valid');
+////            $table->boolean('is_donated');
+////            $table->date('production_date');
+////            $table->date('expiry_date');
+////            $table->foreignId('drug_id')->references('id')->on('drugs')->cascadeOnDelete();
+////            $table->foreignId('branch_id')->nullable();
+////            $table->foreign('branch_id')->references('id')->on('branches')->onDelete('set null');
+////            $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
+////            $table->timestamps();
+//        });
     }
 
     /**
