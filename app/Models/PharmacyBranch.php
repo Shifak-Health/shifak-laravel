@@ -45,4 +45,8 @@ class PharmacyBranch extends Model
     {
         return !!$this->is_open;
     }
+    public function pharmacy()
+    {
+        return $this->belongsTo(Pharmacy::class);
+    }
 }

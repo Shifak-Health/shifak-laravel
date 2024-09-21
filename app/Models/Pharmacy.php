@@ -61,4 +61,8 @@ class Pharmacy extends Model implements HasMedia
     {
         return $this->belongsTo(User::class);
     }
+    public function branches()
+    {
+        return $this->hasMany(PharmacyBranch::class);
+    }
 }

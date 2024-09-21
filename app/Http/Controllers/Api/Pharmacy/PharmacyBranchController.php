@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Pharmacy_branch;
+namespace App\Http\Controllers\Api\Pharmacy;
 
 use App\Models\User;
 use App\Models\PharmacyBranch;

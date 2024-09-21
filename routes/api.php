@@ -2,10 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\LoginController;
-use App\Http\Controllers\Api\Auth\PharmacyController;
 use App\Http\Controllers\Api\User\DrugTypeController;
 use App\Http\Controllers\Api\Auth\RegisterUserController;
-use App\Http\Controllers\Api\Pharmacy_branch\PharmacyBranchController;
+use App\Http\Controllers\Api\Pharmacy\PharmacyController;
+use App\Http\Controllers\Api\Pharmacy\PharmacyBranchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\Pharmacy_branch\PharmacyBranchController;
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/register', [RegisterUserController::class, 'register']);
 Route::post('/pharmacy-branches', [PharmacyBranchController::class, 'store'])->middleware('auth:sanctum');
+Route::get('/pharmacies', [PharmacyController::class, 'index']);
 
 
 Route::post('/password/forget', 'ResetPasswordController@forget')->name('password.forget');
