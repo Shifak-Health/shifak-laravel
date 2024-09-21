@@ -43,8 +43,7 @@ class LoginController extends Controller
     public function login(LoginRequest $request)
     {
         $user = User::where(function (Builder $query) use ($request) {
-            $query->where('email', $request->username);
-            $query->orWhere('phone', $request->username);
+            $query->where('email', $request->email);
         })
             ->when($request->type, function (Builder $builder) use ($request) {
                 $builder->where('type', $request->type);

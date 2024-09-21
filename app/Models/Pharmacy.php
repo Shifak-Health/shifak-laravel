@@ -26,9 +26,10 @@ class Pharmacy extends Model implements HasMedia
      */
     protected $fillable = [
         'name',
-        'hot_line',
+        'hotline',
         'is_active',
         'user_id',
+        'image',
     ];
 
     /**
@@ -55,5 +56,9 @@ class Pharmacy extends Model implements HasMedia
     public function isActive()
     {
         return !!$this->is_active;
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
