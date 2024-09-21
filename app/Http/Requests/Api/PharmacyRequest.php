@@ -24,6 +24,7 @@ class PharmacyRequest extends FormRequest
             'hotline' => ['required', 'string', 'max:20'],
             'image' => ['nullable', 'string', 'max:2048'], // Allow image file types
             'is_active' => ['boolean'],
+            'is_accept_expired' => ['required', 'boolean'],
             'user_id' => ['required', 'unique:pharmacies,user_id', 'exists:users,id'], // Make sure user exists in the users table
         ];
     }

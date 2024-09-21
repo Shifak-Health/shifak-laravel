@@ -2,33 +2,24 @@
 
 namespace App\Http\Requests\Api;
 
-use App\Models\User;
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
-use App\Http\Requests\Concerns\WithHashedPassword;
 
 class RegisterUserRequest extends FormRequest
 {
-    use WithHashedPassword;
-
     /**
-     * Determine if the supervisor is authorized to make this request.
-     *
-     * @return bool
+     * Determine if the user is authorized to make this request.
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
-        return [
+        $rules = [
             'name' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:15', 'unique:users'],
             'type' => ['required', 'in:user,pharmacy'],
@@ -38,32 +29,34 @@ class RegisterUserRequest extends FormRequest
             'birthdate' => ['nullable', 'date'],
             'gender' => ['nullable', 'string'],
         ];
+
+        // If type is pharmacy, merge additional pharmacy-specific rules
+        if ($this->input('type') === 'pharmacy') {
+            $rules = array_merge($rules, [
+                'Pharmacy_name' => ['required', 'string', 'max:255'],
+                'hotline' => ['required', 'string', 'max:20'],
+                'image' => ['nullable', 'string', 'max:2048'],
+                'is_active' => ['boolean'],
+                'is_accept_expired' => ['required', 'boolean'],
+            ]);
+        }
+
+        return $rules;
     }
 
-
     /**
-     * Get custom attributes for validator errors.
-     *
-     * @return array
+     * Get custom validation messages.
      */
-    public function messages()
+    public function messages(): array
     {
         return [
-            'phone.required' => trans('validation.phone_required'),
-            'email.required' => trans('validation.email_required'),
-            'password.required' => trans('validation.password_required'),
+            'phone.required' => 'Phone number is required.',
+            'email.required' => 'Email is required.',
+            'password.required' => 'Password is required.',
+            'type.required' => 'Type is required (user or pharmacy).',
+            'name.required' => 'Name is required.',
+            'hotline.required' => 'Pharmacy hotline is required for pharmacy registration.',
+            'is_accept_expired.required' => 'Please specify if the pharmacy accepts expired drugs.',
         ];
-    }
-
-    /**
-     * Apply additional logic like hashing password.
-     *
-     * @return array
-     */
-    public function allWithHashedPassword()
-    {
-        return array_merge($this->all(), [
-            'password' => bcrypt($this->password),
-        ]);
     }
 }

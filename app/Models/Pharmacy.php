@@ -25,11 +25,11 @@ class Pharmacy extends Model implements HasMedia
      * @var array
      */
     protected $fillable = [
-        'name',
+        'Pharmacy_name',
         'hotline',
         'is_active',
         'user_id',
-        'image',
+        'is_accept_expired'
     ];
 
     /**

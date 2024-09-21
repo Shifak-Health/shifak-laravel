@@ -3,8 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\PharmacyController;
-use App\Http\Controllers\Api\Auth\RegisterUserController;
 use App\Http\Controllers\Api\User\DrugTypeController;
+use App\Http\Controllers\Api\Auth\RegisterUserController;
+use App\Http\Controllers\Api\Pharmacy_branch\PharmacyBranchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +21,9 @@ use App\Http\Controllers\Api\User\DrugTypeController;
 // Route to handle email verification
 
 Route::post('/login', [LoginController::class, 'login'])->name('login');
-Route::post('/register-user', [RegisterUserController::class, 'register']);
-Route::post('/store-pharmacy', [PharmacyController::class, 'store']);
+Route::post('/register', [RegisterUserController::class, 'register']);
+Route::post('/pharmacy-branches', [PharmacyBranchController::class, 'store'])->middleware('auth:sanctum');
+
 
 Route::post('/password/forget', 'ResetPasswordController@forget')->name('password.forget');
 Route::post('/password/code', 'ResetPasswordController@code')->name('password.code');
