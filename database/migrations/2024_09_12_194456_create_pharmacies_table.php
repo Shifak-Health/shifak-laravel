@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('pharmacies', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('Pharmacy_name');
             $table->string('hotline');
             $table->boolean('is_active')->default(true);
-            $table->string('image');
+            $table->boolean('is_accept_expired');
             $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->timestamps();
         });

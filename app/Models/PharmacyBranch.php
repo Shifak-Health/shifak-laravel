@@ -6,7 +6,7 @@ use App\Models\Relations\BranchRelations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Branch extends Model
+class PharmacyBranch extends Model
 {
     use HasFactory;
     use BranchRelations;
@@ -24,8 +24,8 @@ class Branch extends Model
         'is_open',
         'lat',
         'lng',
+        'pharmacy_id'
     ];
-
     /**
      * The attributes that should be cast to native types.
      *
@@ -44,5 +44,9 @@ class Branch extends Model
     public function isOpen(): bool
     {
         return !!$this->is_open;
+    }
+    public function pharmacy()
+    {
+        return $this->belongsTo(Pharmacy::class);
     }
 }

@@ -32,7 +32,7 @@ class UserRegistrationTest extends TestCase
         ];
 
         // Make the request to the register route
-        $response = $this->postJson('/api/register-user', $payload);
+        $response = $this->postJson('/api/register', $payload);
 
         // Assert the response status
         $response->assertStatus(201);
@@ -63,7 +63,7 @@ class UserRegistrationTest extends TestCase
         ];
 
         // Send request with incomplete payload
-        $response = $this->postJson('/api/register-user', $payload);
+        $response = $this->postJson('/api/register', $payload);
 
         // Assert that validation errors are returned
         $response->assertStatus(422); // 422 Unprocessable Entity

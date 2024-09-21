@@ -22,7 +22,6 @@ class LoginController extends Controller
         $user = User::where('email', $validated['email'])
             ->where('type', $validated['type'])
             ->first();
-
         // Check if user exists and password is correct
         if (! $user || ! Hash::check($validated['password'], $user->password)) {
             return response()->json([

@@ -18,9 +18,14 @@ class PharmacyResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
+            'name' => $this->Pharmacy_name,
             'hotline' => $this->hotline,
             'avatar' => $this->image,
+            'is_active' => $this->is_active,
+            'user_id' => $this->user_id,
+            'is_accept_expired' => $this->is_accept_expired,
+            'created_at' => $this->created_at->toDateTimeString(),
+            'updated_at' => $this->updated_at->toDateTimeString(),
         ];
     }
 }
