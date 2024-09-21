@@ -38,6 +38,9 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::as('user.')->prefix('user')->group(function () {
     Route::get('drug-types', [DrugTypeController::class, 'index'])->name('drugs.types');
 });
+Route::as('pharmacy.')->prefix('pharmacy')->group(function () {
+    Route::get('drug-types', [DrugTypeController::class, 'index'])->name('drugs.types');
+});
 Route::post('/editor/upload', 'MediaController@editorUpload')->name('editor.upload');
 Route::get('/settings', 'SettingController@index')->name('settings.index');
 Route::get('/settings/pages/{page}', 'SettingController@page')
