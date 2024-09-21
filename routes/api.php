@@ -26,9 +26,6 @@ use App\Http\Controllers\Api\Pharmacy\PharmacyBranchController;
 
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/register', [RegisterUserController::class, 'register']);
-Route::post('/pharmacy-branches', [PharmacyBranchController::class, 'store'])->middleware('auth:sanctum');
-Route::get('/pharmacies', [PharmacyController::class, 'index']);
-
 
 Route::post('/password/forget', 'ResetPasswordController@forget')->name('password.forget');
 Route::post('/password/code', 'ResetPasswordController@code')->name('password.code');
@@ -50,6 +47,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('drug-types', [DrugTypeController::class, 'index'])->name('drugs.types');
         Route::get('drugs', [PharmacyDrugController::class, 'index'])->name('drugs.index');
         Route::post('drugs', [PharmacyDrugController::class, 'store'])->name('drugs.store');
+        Route::post('/pharmacy-branches', [PharmacyBranchController::class, 'store']);
+        Route::get('/pharmacies', [PharmacyController::class, 'index']);
+        Route::get('/branches', [PharmacyBranchController::class, 'index']);
     });
 });
 Route::post('/editor/upload', 'MediaController@editorUpload')->name('editor.upload');

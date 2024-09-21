@@ -43,5 +43,4 @@ class DrugTest extends TestCase
 
         $response->assertStatus(201);
     }
-
 }
