@@ -49,8 +49,10 @@ class RegisterUserController extends Controller
 
         $pharmacy = Pharmacy::create($pharmacyData);
         // Handle image upload
-        if ($request->hasFile('logo')) {
-            $pharmacy->addMediaFromRequest('logo')->toMediaCollection('logo');
+        if ($request->hasFile('pharmacy.logo')) {
+            $pharmacy->addMediaFromRequest('pharmacy.logo')
+                ->usingFileName(md5(Arr::random(40)))
+                ->toMediaCollection('logo');
         }
     }
 }
