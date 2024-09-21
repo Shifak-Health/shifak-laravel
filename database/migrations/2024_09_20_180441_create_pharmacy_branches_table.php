@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('pharmacy_branches', function (Blueprint $table) {
             $table->id();
-            $table->integer('quantity');
-            $table->boolean('is_completed')->default(false);
-            $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->foreignId('drug_pharmacy_id')->references('id')->on('drug_pharmacies')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -26,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('pharmacy_branches');
     }
 };

@@ -5,6 +5,10 @@ use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\PharmacyController;
 use App\Http\Controllers\Api\Auth\RegisterUserController;
 use App\Http\Controllers\Api\User\DrugTypeController;
+use App\Http\Controllers\Api\User\DrugController;
+use App\Http\Controllers\Api\Pharmacy\DrugController as PharmacyDrugController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -34,12 +38,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('verification/verify', 'VerificationController@verify')->name('verification.verify');
     Route::get('profile', 'ProfileController@show')->name('profile.show');
     Route::match(['put', 'patch'], 'profile', 'ProfileController@update')->name('profile.update');
-});
-Route::as('user.')->prefix('user')->group(function () {
-    Route::get('drug-types', [DrugTypeController::class, 'index'])->name('drugs.types');
-});
-Route::as('pharmacy.')->prefix('pharmacy')->group(function () {
-    Route::get('drug-types', [DrugTypeController::class, 'index'])->name('drugs.types');
+    Route::as('user.')->prefix('user')->group(function () {
+        Route::get('drug-types', [DrugTypeController::class, 'index'])->name('drugs.types');
+        Route::get('drugs', [DrugController::class, 'index'])->name('drugs.index');
+        Route::post('drugs', [DrugController::class, 'store'])->name('drugs.store');
+    });
+    Route::as('pharmacy.')->prefix('pharmacy')->group(function () {
+        Route::get('drug-types', [DrugTypeController::class, 'index'])->name('drugs.types');
+        Route::get('drugs', [PharmacyDrugController::class, 'index'])->name('drugs.index');
+        Route::post('drugs', [PharmacyDrugController::class, 'store'])->name('drugs.store');
+    });
 });
 Route::post('/editor/upload', 'MediaController@editorUpload')->name('editor.upload');
 Route::get('/settings', 'SettingController@index')->name('settings.index');

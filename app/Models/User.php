@@ -39,6 +39,7 @@ class User extends Authenticatable implements HasMedia, NotificationTarget
 
     const USER_TYPE = 'user';
 
+
     /**
      * The guard name of the user permissions.
      *
@@ -295,5 +296,10 @@ class User extends Authenticatable implements HasMedia, NotificationTarget
         }
 
         return route('dashboard.customers.show', $parameters);
+    }
+
+    public function drugs()
+    {
+        return $this->hasMany(Drug::class);
     }
 }
