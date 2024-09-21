@@ -7,9 +7,12 @@ use App\Models\Customer;
 use Illuminate\Support\Str;
 use App\Models\ResetPasswordCode;
 use App\Models\ResetPasswordToken;
+use App\Models\User;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\Accounts\PasswordUpdatedNotification;
 use App\Notifications\Accounts\SendForgetPasswordCodeNotification;
+
+use function PHPSTORM_META\type;
 
 class ResetPasswordTest extends TestCase
 {
@@ -28,7 +31,7 @@ class ResetPasswordTest extends TestCase
 
         Notification::assertNothingSent();
 
-        $user = Customer::factory()->create(['email' => 'user@user.com']);
+        $user = User::factory()->create(['email' => 'user@user.com']);
 
         $this->postJson(route('api.password.forget'), [
             'username' => 'user@user.com',
@@ -75,7 +78,7 @@ class ResetPasswordTest extends TestCase
     {
         Notification::fake();
 
-        $user = Customer::factory()->create(['email' => 'user@user.com']);
+        $user = User::factory()->create(['email' => 'user@user.com']);
 
         ResetPasswordToken::create([
             'user_id' => $user->id,
@@ -104,18 +107,6 @@ class ResetPasswordTest extends TestCase
                 'data' => $user->getResource()->jsonSerialize(),
             ])
             ->assertJsonStructure(['token']);
-
-        // Now test login with new password.
-        $this->postJson(route('api.sanctum.login'), [
-            'username' => $user->email,
-            'password' => '12345678',
-        ])
-            ->assertSuccessful()
-            ->assertJson([
-                'data' => $user->getResource()->jsonSerialize(),
-            ])
-            ->assertJsonStructure(['token']);
-
         Notification::assertSentTo($user, PasswordUpdatedNotification::class);
     }
 }

@@ -3,8 +3,9 @@
 namespace Database\Factories;
 
 use App\Models\User;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserFactory extends Factory
 {
@@ -25,46 +26,25 @@ class UserFactory extends Factory
         return [
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
-            'phone' => $this->faker->unique()->phoneNumber,
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'phone' => $this->faker->phoneNumber,
+            'password' => Hash::make('password123'), // You can change the default password
+            'type' => $this->faker->randomElement(['user', 'pharmacy']),
+            'national_id' => $this->faker->numerify('##############'), // 14 digit random number for national_id
+            'gender' => $this->faker->randomElement(['male', 'female']),
+            'birthdate' => $this->faker->date(),
             'remember_token' => Str::random(10),
-            'type' => User::CUSTOMER_TYPE,
         ];
     }
 
     /**
-     * Configure the model factory.
+     * Indicate that the model's email address should be unverified.
      *
-     * @return $this
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
-    public function configure()
+    public function unverified()
     {
-        return $this->afterCreating(function (User $user) {
-            User::withoutEvents(function () use ($user) {
-                $user->forceFill([
-                    'phone_verified_at' => now(),
-                ])->save();
-
-                $avatars = [
-                    public_path('images/avatar.png'),
-                    public_path('images/avatar2.png'),
-                    public_path('images/avatar3.png'),
-                    public_path('images/avatar04.png'),
-                    public_path('images/avatar5.png'),
-                    public_path('images/user1-128x128.jpg'),
-                    public_path('images/user2-160x160.jpg'),
-                    public_path('images/user3-128x128.jpg'),
-                    public_path('images/user4-128x128.jpg'),
-                    public_path('images/user5-128x128.jpg'),
-                    public_path('images/user6-128x128.jpg'),
-                    public_path('images/user7-128x128.jpg'),
-                    public_path('images/user8-128x128.jpg'),
-                ];
-                $user->addMedia($this->faker->randomElement($avatars))
-                    ->preservingOriginal()
-                    ->toMediaCollection('avatars');
-            });
-        });
+        return $this->state([
+            'email_verified_at' => null,
+        ]);
     }
 }

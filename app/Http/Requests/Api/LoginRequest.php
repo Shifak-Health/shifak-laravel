@@ -6,36 +6,27 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class LoginRequest extends FormRequest
 {
-    /**
-     * Determine if the supervisor is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize()
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules()
     {
         return [
-            'username' => 'required',
-            'password' => 'required',
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string'],
+            'type' => ['required', 'in:user,pharmacy'],
         ];
     }
 
-    /**
-     * Get custom attributes for validator errors.
-     *
-     * @return array
-     */
-    public function attributes()
+    public function messages()
     {
-        return trans('auth.attributes');
+        return [
+            'email.required' => 'Email is required',
+            'password.required' => 'Password is required',
+            'type.required' => 'User type is required (user or pharmacy)',
+            'type.in' => 'Invalid user type. Must be either user or pharmacy',
+        ];
     }
 }
