@@ -13,23 +13,27 @@ class PharmacyBranchController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
-        // Check if the request contains the `is_accept_expired` filter
-        if ($request->has('is_accept_expired')) {
-            $isAcceptExpired = $request->input('is_accept_expired');
-            // Retrieve pharmacy branches where the parent pharmacy's `is_accept_expired` matches the request
-            $branches = PharmacyBranch::whereHas('pharmacy', function ($query) use ($isAcceptExpired) {
-                $query->where('is_accept_expired', $isAcceptExpired);
-            })->get();
-        } else {
-            // Retrieve all pharmacy branches if no filter is applied
-            $branches = PharmacyBranch::all();
-        }
+
+        $branches = PharmacyBranch::query()
+            ->when($request->has('is_accept_expired') && $request->is_accept_expired == 'true', function ($query) use ($request) {
+                $query->whereHas('pharmacy', function ($query) use ($request) {
+                    $query->where('is_accept_expired', $request->is_accept_expired);
+                });
+            })
+            ->when($request->has('my_branches') && $request->my_branches == 'true', function ($query) {
+                $query->where('pharmacy_id', auth()->user()->pharmacy->id);
+            })
+            ->get();
+
 
         return response()->json([
             'data' => $branches,
         ]);
     }
-    public function show() {}
+
+    public function show()
+    {
+    }
 
     public function store(BranchRequest $request): JsonResponse
     {

@@ -23,6 +23,21 @@ class PharmacyResource extends JsonResource
             'avatar' => $this->image,
             'is_active' => $this->is_active,
             'logo' => $this->getFirstMediaUrl('logo'),
+            'branches' => $this->whenLoaded('branches', function () {
+                return json_decode($this->branches->map(function ($branch) {
+                        return [
+                            'id' => $branch->id,
+                            'name' => $branch->name,
+                            'address' => $branch->address,
+                            'phone' => $branch->phone,
+                            'commercial_registration_number' => $branch->commercial_registration_number,
+                            'tax_number' => $branch->tax_number,
+                            'is_open' => $branch->is_active,
+                            'created_at' => $branch->created_at,
+                            'updated_at' => $branch->updated_at
+                        ];
+                    }));
+            }),
             'user_id' => $this->user_id,
             'is_accept_expired' => $this->is_accept_expired,
             'created_at' => $this->created_at->toDateTimeString(),

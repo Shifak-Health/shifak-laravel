@@ -17,11 +17,20 @@ class PharmacyController extends Controller
      */
     public function index(): JsonResponse
     {
-        // Retrieve all pharmacies and return them as a collection of PharmacyResource
         $pharmacies = Pharmacy::all();
 
         return response()->json([
             'data' => PharmacyResource::collection($pharmacies)
         ]);
+    }
+
+    //make show
+
+    public function show($id)
+    {
+        $pharmacy = Pharmacy::find($id);
+        return $pharmacy
+            ? PharmacyResource::make($pharmacy->load('branches'))
+            : PharmacyResource::make($pharmacy)->additional(['message' => __('admin.not_found', ['attribute' => __('attributes.pharmacy')])]);
     }
 }

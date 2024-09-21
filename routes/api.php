@@ -57,6 +57,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::post('/pharmacy-branches', [PharmacyBranchController::class, 'store']);
         Route::get('/pharmacies', [PharmacyController::class, 'index']);
+        Route::get('/pharmacies/{id}', [PharmacyController::class, 'show']);
         Route::get('/branches', [PharmacyBranchController::class, 'index']);
 
         Route::get('orders', [PharmacyOrderController::class, 'index'])->name('orders.index');
