@@ -26,10 +26,8 @@ class User extends Authenticatable implements HasMedia, NotificationTarget
     use HasFactory;
     use Notifiable;
     use UserHelpers;
-    use HasChildren;
     use InteractsWithMedia;
     use HasApiTokens;
-    use HasChildren;
     use PresentableTrait;
     use Filterable;
     use Selectable;
@@ -37,26 +35,9 @@ class User extends Authenticatable implements HasMedia, NotificationTarget
     use Impersonate;
     use HasRoles;
 
-    /**
-     * The code of admin type.
-     *
-     * @var string
-     */
-    const ADMIN_TYPE = 'admin';
+    const PHARMACY_TYPE = 'pharmacy';
 
-    /**
-     * The code of supervisor type.
-     *
-     * @var string
-     */
-    const SUPERVISOR_TYPE = 'supervisor';
-
-    /**
-     * The code of customer type.
-     *
-     * @var string
-     */
-    const CUSTOMER_TYPE = 'customer';
+    const USER_TYPE = 'user';
 
     /**
      * The guard name of the user permissions.
@@ -75,7 +56,11 @@ class User extends Authenticatable implements HasMedia, NotificationTarget
         'email',
         'phone',
         'password',
+        'type',  // Include 'type' in fillable for mass assignment
         'remember_token',
+        'national_id',
+        "birthdate",
+        "gender"
     ];
 
     /**
@@ -98,11 +83,6 @@ class User extends Authenticatable implements HasMedia, NotificationTarget
     /**
      * @var array
      */
-    protected $childTypes = [
-        self::ADMIN_TYPE => Admin::class,
-        self::SUPERVISOR_TYPE => Supervisor::class,
-        self::CUSTOMER_TYPE => Customer::class,
-    ];
 
     /**
      * The attributes that should be cast to native types.
@@ -111,6 +91,7 @@ class User extends Authenticatable implements HasMedia, NotificationTarget
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'birthdate' => 'date',
     ];
 
     /**
@@ -132,6 +113,15 @@ class User extends Authenticatable implements HasMedia, NotificationTarget
      *
      * @return string
      */
+
+    public function Pharmacy()
+    {
+        return $this->hasOne(Pharmacy::class);
+    }
+    public function Branch()
+    {
+        return $this->hasMany(Branch::class);
+    }
     public function dashboardProfile(): string
     {
         return '#';
@@ -181,7 +171,7 @@ class User extends Authenticatable implements HasMedia, NotificationTarget
     {
         $this
             ->addMediaCollection('avatars')
-            ->useFallbackUrl('https://www.gravatar.com/avatar/'.md5($this->email).'?d=mm')
+            ->useFallbackUrl('https://www.gravatar.com/avatar/' . md5($this->email) . '?d=mm')
             ->singleFile()
             ->registerMediaConversions(function () {
                 $this->addMediaConversion('thumb')

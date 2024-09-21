@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('hotline');
             $table->boolean('is_active')->default(true);
+            $table->string('image');
             $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->timestamps();
         });

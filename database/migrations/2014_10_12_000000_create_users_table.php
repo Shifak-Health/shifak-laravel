@@ -16,7 +16,7 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('type')->nullable();
+            $table->enum('type', ['user', 'pharmacy'])->default('user');
             $table->string('email')->unique()->nullable();
             $table->string('phone')->unique()->nullable();
             $table->string('gender')->default('male');
@@ -26,8 +26,6 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->rememberToken();
-            $table->double('lat')->nullable();
-            $table->double('lng')->nullable();
             $table->boolean('is_blocked')->default(false);
             $table->timestamps();
             $table->softDeletes();

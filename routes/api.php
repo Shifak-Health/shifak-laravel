@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\Auth\LoginController;
+use App\Http\Controllers\Api\Auth\PharmacyController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\Api\Auth\RegisterUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,8 +17,11 @@ use Illuminate\Support\Facades\Route;
 | and "api." route's alias name. Enjoy building your API!
 |
 */
-Route::post('/register', 'RegisterController@register')->name('sanctum.register');
-Route::post('/login', 'LoginController@login')->name('sanctum.login');
+// Route to handle email verification
+
+Route::post('/login', [LoginController::class, 'login'])->name('login');
+Route::post('/register-user', [RegisterUserController::class, 'register']);
+Route::post('/store-pharmacy', [PharmacyController::class, 'store']);
 
 Route::post('/password/forget', 'ResetPasswordController@forget')->name('password.forget');
 Route::post('/password/code', 'ResetPasswordController@code')->name('password.code');
