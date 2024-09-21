@@ -23,7 +23,7 @@ class StoreDrugRequest extends FormRequest
     {
         return [
             'drug_type_id' => ['required', 'exists:drug_types,id'],
-            'pharmacy_branch_id' => ['required_if:is_donated,0', 'nullable', 'exists:pharmacy_branches,id', 'prohibited_if:is_donated,1'],
+            'pharmacy_branch_id' => ['required_if:is_donated,1', 'nullable', 'exists:pharmacy_branches,id', 'prohibited_if:is_donated,0'],
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'price' => ['required_if:is_donated,0', 'numeric', 'min:0'],

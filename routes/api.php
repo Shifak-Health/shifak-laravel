@@ -6,6 +6,10 @@ use App\Http\Controllers\Api\User\DrugTypeController;
 use App\Http\Controllers\Api\User\DrugController;
 use App\Http\Controllers\Api\Pharmacy\DrugController as PharmacyDrugController;
 
+use App\Http\Controllers\Api\User\OrderController;
+
+use App\Http\Controllers\Api\Pharmacy\OrderController as PharmacyOrderController;
+
 
 use App\Http\Controllers\Api\Auth\RegisterUserController;
 use App\Http\Controllers\Api\Pharmacy\PharmacyController;
@@ -42,14 +46,24 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('drug-types', [DrugTypeController::class, 'index'])->name('drugs.types');
         Route::get('drugs', [DrugController::class, 'index'])->name('drugs.index');
         Route::post('drugs', [DrugController::class, 'store'])->name('drugs.store');
+        Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
+        Route::post('orders', [OrderController::class, 'store'])->name('orders.store');
+        Route::delete('orders/{order}', [OrderController::class, 'destroy'])->name('orders.destroy');
     });
     Route::as('pharmacy.')->prefix('pharmacy')->group(function () {
         Route::get('drug-types', [DrugTypeController::class, 'index'])->name('drugs.types');
         Route::get('drugs', [PharmacyDrugController::class, 'index'])->name('drugs.index');
         Route::post('drugs', [PharmacyDrugController::class, 'store'])->name('drugs.store');
+
         Route::post('/pharmacy-branches', [PharmacyBranchController::class, 'store']);
         Route::get('/pharmacies', [PharmacyController::class, 'index']);
         Route::get('/branches', [PharmacyBranchController::class, 'index']);
+
+        Route::get('orders', [PharmacyOrderController::class, 'index'])->name('orders.index');
+        Route::post('orders', [PharmacyOrderController::class, 'store'])->name('orders.store');
+        Route::delete('orders/{order}', [PharmacyOrderController::class, 'destroy'])->name('orders.destroy');
+
+
     });
 });
 Route::post('/editor/upload', 'MediaController@editorUpload')->name('editor.upload');

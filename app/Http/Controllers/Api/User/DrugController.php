@@ -20,9 +20,12 @@ class DrugController extends Controller
             $drugs = auth()->user()->drugs()->with(['drugType', 'pharmacyBranch.pharmacy'])->get();
         } else {
             $drugs = Drug::query()
+                ->filter(request(['search']))
                 ->when(request()->has('is_donated') && request()->is_donated == 'true', function ($query) {
                     $query->where('is_donated', 1);
                 })
+                ->where('pharmacy_branch_id', '!=', null)
+                ->whereDoesntHave('order')
                 ->with(['drugType', 'pharmacyBranch.pharmacy'])->get();
         }
         return DrugResource::collection($drugs);

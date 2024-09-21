@@ -33,11 +33,11 @@ class RegisterUserRequest extends FormRequest
         // If type is pharmacy, merge additional pharmacy-specific rules
         if ($this->input('type') === 'pharmacy') {
             $rules = array_merge($rules, [
-                'Pharmacy_name' => ['required', 'string', 'max:255'],
-                'hotline' => ['required', 'string', 'max:20'],
-                'image' => ['nullable', 'string', 'max:2048'],
-                'is_active' => ['boolean'],
-                'is_accept_expired' => ['required', 'boolean'],
+                'pharmacy.name' => ['required', 'string', 'max:255'],
+                'pharmacy.hotline' => ['required', 'string', 'max:20'],
+                'pharmacy.is_active' => ['boolean'],
+                'pharmacy.is_accept_expired' => ['required', 'boolean'],
+                'pharmacy.logo' => ['required', 'image'],
             ]);
         }
 

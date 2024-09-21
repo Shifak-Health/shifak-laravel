@@ -25,7 +25,7 @@ class Pharmacy extends Model implements HasMedia
      * @var array
      */
     protected $fillable = [
-        'Pharmacy_name',
+        'name',
         'hotline',
         'is_active',
         'user_id',
@@ -57,12 +57,25 @@ class Pharmacy extends Model implements HasMedia
     {
         return !!$this->is_active;
     }
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
     public function branches()
     {
         return $this->hasMany(PharmacyBranch::class);
     }
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('logo')
+            ->singleFile();
+    }
+
 }
+
+
+    
+
+
