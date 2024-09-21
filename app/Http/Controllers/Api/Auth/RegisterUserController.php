@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Models\User;
 use App\Models\Pharmacy;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
@@ -17,7 +18,6 @@ class RegisterUserController extends Controller
     public function register(RegisterUserRequest $request): JsonResponse
     {
         $validatedData = $request->validated();
-
         // Hash password
         $validatedData['password'] = Hash::make($validatedData['password']);
 
@@ -40,16 +40,17 @@ class RegisterUserController extends Controller
             'user' => $user,
         ], 201);
     }
+
     protected function registerPharmacy(Request $request, User $user): void
     {
-        $pharmacyData = $request->only(['Pharmacy_name', 'hotline', 'image', 'is_active', 'is_accept_expired']);
+        $pharmacyData = $request->only(['pharmacy'])['pharmacy'];
         $pharmacyData['user_id'] = $user->id;
 
-        // Handle image upload
-        if ($request->hasFile('image')) {
-            $pharmacyData['image'] = $request->file('image')->store('pharmacies', 'public');
-        }
 
-        Pharmacy::create($pharmacyData);
+        $pharmacy = Pharmacy::create($pharmacyData);
+        // Handle image upload
+        if ($request->hasFile('logo')) {
+            $pharmacy->addMediaFromRequest('logo')->toMediaCollection('logo');
+        }
     }
 }

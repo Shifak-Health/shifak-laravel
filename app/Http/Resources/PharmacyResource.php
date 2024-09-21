@@ -11,17 +11,18 @@ class PharmacyResource extends JsonResource
      * Transform the resource into an array.
      *
      * @param \Illuminate\Http\Request
-     * @throws \Laracasts\Presenter\Exceptions\PresenterException
      * @return array
+     * @throws \Laracasts\Presenter\Exceptions\PresenterException
      */
     public function toArray($request)
     {
         return [
             'id' => $this->id,
-            'name' => $this->Pharmacy_name,
+            'name' => $this->name,
             'hotline' => $this->hotline,
             'avatar' => $this->image,
             'is_active' => $this->is_active,
+            'logo' => $this->getFirstMediaUrl('logo'),
             'user_id' => $this->user_id,
             'is_accept_expired' => $this->is_accept_expired,
             'created_at' => $this->created_at->toDateTimeString(),

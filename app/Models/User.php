@@ -302,4 +302,9 @@ class User extends Authenticatable implements HasMedia, NotificationTarget
     {
         return $this->hasMany(Drug::class);
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }
