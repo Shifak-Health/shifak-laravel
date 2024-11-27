@@ -17,7 +17,7 @@ class PharmacyController extends Controller
      */
     public function index(): JsonResponse
     {
-        $pharmacies = Pharmacy::all();
+        $pharmacies = Pharmacy::with('branches')->get();
 
         return response()->json([
             'data' => PharmacyResource::collection($pharmacies)
